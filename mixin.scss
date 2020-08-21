@@ -1,0 +1,123 @@
+$dark-theme: (
+    theme: 'dark',
+    bg-inner-color: rgba(27,35,60,1),
+    bg-inner-border-color: rgba(45,50,75,1),
+    bg-color: rgba(50,60,85,1),
+    hex-flag-color: rgba(255, 255, 255, 1),
+    hex-bg-color: rgba(0,0,0,1),
+    hex-border-color: rgba(255,255,255,1),
+    hex-flag-opacity: 1,
+    hex-preview-bg-color: none,
+    alpha-color: rgba(255,255,255,1),
+    color-choose-bg: none,
+);
+
+$light-theme: (
+    theme: 'light',
+    bg-inner-color: #fff,
+    bg-inner-border-color: rgba(237,237,237,1),
+    bg-color: #fff,
+    hex-flag-color: rgba(0,0,0,1),
+    hex-bg-color: rgba(246,246,246,1),
+    hex-border-color: none,
+    hex-flag-opacity: 0.6,
+    hex-preview-bg-color: rgba(153,153,153,1),
+    alpha-color: rgba(0,0,0,1),
+    color-choose-bg: rgba(204,204,204,1),
+);
+
+$prefix: 'Myself';
+
+$themes: (
+  dark-theme: $dark-theme,
+  light-theme: $light-theme,
+);
+
+@mixin base-background(){
+    @each $themename, $theme in $themes {
+        [data-theme = '#{$themename}'] & {
+            background: map-get($map: $theme, $key: bg-color )
+        }
+    }
+}
+
+@mixin base-inner-background(){
+    @each $themename, $theme in $themes {
+        [data-theme = '#{$themename}'] & {
+            background: map-get($map: $theme, $key: bg-inner-color );
+            border: 1px solid map-get($map: $theme, $key: bg-inner-border-color )
+        }
+    }
+}
+
+@mixin hex-box-background(){
+    @each $themename, $theme in $themes {
+        [data-theme = '#{$themename}'] & {
+            .#{$prefix}-name {
+                color: map-get($map: $theme, $key: hex-flag-color );
+                opacity: map-get($map: $theme, $key: hex-flag-opacity );
+            }
+            .#{$prefix}-value {
+                $border: map-get($map: $theme, $key: hex-border-color);
+                background: map-get($map: $theme, $key: hex-bg-color );
+                color: map-get($map: $theme, $key: hex-flag-color );
+                @if $border == none {
+                    border: none
+                } @else {
+                    border: 1px solid $border
+                }
+            }
+        }
+    }
+}
+
+@mixin base-prev-canvas-border(){
+    @each $themename, $theme in $themes {
+        [data-theme = '#{$themename}'] & {
+            $border: map-get($map: $theme, $key: hex-preview-bg-color );
+            @if $border == none {
+                border: none
+            } @else {
+                border: 1px solid $border
+            }
+        }
+    }
+}
+
+@mixin alpha-color(){
+    @each $themename, $theme in $themes {
+        [data-theme = '#{$themename}'] & {
+            color: map-get($map: $theme, $key: alpha-color )
+        }
+    }
+}
+
+@mixin color-choose-bg(){
+    @each $themename, $theme in $themes {
+        [data-theme = '#{$themename}'] & {
+            $border: map-get($map: $theme, $key: color-choose-bg );
+            .#{$prefix}-color {
+                @if $border == none {
+                    border: none
+                } @else {
+                    border: 1px solid $border
+                }
+            }
+        }
+    }
+}
+
+@mixin color-choose-self-title(){
+    @each $themename, $theme in $themes {
+        [data-theme = '#{$themename}'] & {
+            .#{$prefix}-sub {
+                color: map-get($map: $theme, $key: hex-flag-color );
+                opacity: map-get($map: $theme, $key: hex-flag-opacity );
+            }
+            .#{$prefix}-back {
+                $themeMark: map-get($map: $theme, $key: theme );
+                background: url('./assets/theme/' + $themeMark + '/image/back.png') no-repeat center center;
+            }
+        }
+    }
+}
